@@ -15,7 +15,7 @@ canvas {
 /* MENSAJE */
 .mensaje {
   position: absolute;
-  top: 50px;
+  top: 40px;
   width: 100%;
   text-align: center;
   z-index: 2;
@@ -23,12 +23,14 @@ canvas {
 }
 
 .mensaje h1 {
-  font-size: 40px;
+  font-size: 42px;
   margin-bottom: 10px;
 }
 
 .mensaje p {
   font-size: 20px;
+  max-width: 900px;
+  margin: auto;
 }
 
 /* CONTADOR */
@@ -51,11 +53,11 @@ canvas {
 .galeria {
   position: absolute;
   right: 40px;
-  top: 250px;
+  top: 300px; /* MÁS ABAJO */
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  gap: 35px;
 }
 
 .marco {
