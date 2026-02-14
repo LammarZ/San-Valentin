@@ -133,7 +133,7 @@ function animate() {
 
 animate();
 
-const inicio = new Date("2023-01-01");
+const inicio = new Date("2023-06-08T00:00:00");
 
 function actualizarContador() {
   const ahora = new Date();
