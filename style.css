@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  overflow: hidden;
   font-family: Arial, sans-serif;
   background: #fdf6e3;
+  overflow-x: hidden;
 }
 
 canvas {
@@ -12,16 +12,20 @@ canvas {
   z-index: 0;
 }
 
+/* MENSAJE */
 .mensaje {
   position: absolute;
-  top: 12%;
-  left: 5%;
-  width: 40%;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  text-align: center;
   color: #5a2d0c;
   font-size: 22px;
   z-index: 2;
 }
 
+/* CONTADOR */
 .contador-amor {
   position: absolute;
   bottom: 20px;
@@ -31,35 +35,42 @@ canvas {
   z-index: 2;
 }
 
+/* GALERÍA MÁS GRANDE */
 .galeria {
   position: absolute;
-  right: 2%;
-  top: 8%;
-  width: 40%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  right: 4%;
+  top: 18%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* MÁS espacio */
   z-index: 2;
 }
 
+/* FOTO AHORA ESCALA 2 */
 .foto {
   position: relative;
+  width: 240px;   /* antes era aprox 120 */
+  height: 240px;
 }
 
+/* GIRASOL ESCALA 2.5 */
 .foto::before {
   content: "🌻";
   position: absolute;
-  font-size: 160px;   /* MÁS GRANDE */
-  top: -70px;
-  left: -70px;
+  font-size: 300px;   /* antes 100-150 */
+  top: -110px;
+  left: -110px;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 1;
 }
 
+/* IMAGEN GRANDE */
 .foto img {
   width: 100%;
-  border-radius: 25px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
   position: relative;
   z-index: 1;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
 }
