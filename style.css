@@ -17,18 +17,18 @@ canvas {
 .contenido {
   display: flex;
   justify-content: space-between;
-  padding: 40px;
+  padding: 40px 80px;
 }
 
 .mensaje {
-  max-width: 40%;
+  max-width: 35%;
   font-size: 20px;
 }
 
 .contador-amor {
   position: absolute;
   bottom: 20px;
-  left: 40px;
+  left: 80px;
   font-size: 18px;
 }
 
@@ -36,7 +36,8 @@ canvas {
   width: 40%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  gap: 50px;
+  margin-right: 50px;
 }
 
 .foto {
@@ -46,17 +47,18 @@ canvas {
 .foto::before {
   content: "🌻";
   position: absolute;
-  font-size: 140px;
-  top: -40px;
-  left: -40px;
-  opacity: 0.5;
+  font-size: 180px;
+  top: -50px;
+  left: -50px;
+  opacity: 0.4;
   z-index: 0;
 }
 
 .foto img {
   width: 100%;
+  max-width: 260px;
   border-radius: 20px;
   position: relative;
   z-index: 1;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.3);
 }
