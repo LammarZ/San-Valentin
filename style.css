@@ -2,7 +2,14 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f5f0e6;
-  overflow-x: hidden;
+  overflow: hidden; /* ELIMINA SCROLL */
+}
+
+.titulo {
+  text-align: center;
+  font-size: 48px;
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
 canvas {
@@ -17,29 +24,34 @@ canvas {
 .contenido {
   display: flex;
   justify-content: space-between;
-  padding: 60px 120px;
+  padding: 40px 100px;
+  margin-top: 40px;
+  height: calc(100vh - 120px);
 }
 
 .lado-izquierdo {
-  max-width: 35%;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .mensaje {
-  font-size: 20px;
-  margin-bottom: 40px;
+  font-size: 18px;
+  margin-bottom: 30px;
 }
 
 .contador-amor {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* GALERÍA */
 
 .galeria {
-  width: 40%;
+  width: 35%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 60px;
+  gap: 35px;
 }
 
 .foto {
@@ -53,19 +65,19 @@ canvas {
   position: absolute;
   background: url("img/girasol.png") no-repeat center;
   background-size: contain;
-  width: 220px;
-  height: 220px;
-  top: -60px;
-  left: -60px;
-  opacity: 0.35;
+  width: 150px;
+  height: 150px;
+  top: -40px;
+  left: -40px;
+  opacity: 0.3;
   z-index: 0;
 }
 
 .foto img {
-  width: 260px;
+  width: 180px; /* MÁS CHICAS */
   height: auto;
-  border-radius: 20px;
+  border-radius: 18px;
   position: relative;
   z-index: 1;
-  box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }

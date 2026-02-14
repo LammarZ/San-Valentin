@@ -5,14 +5,13 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const centerX = canvas.width / 2;
-const groundY = canvas.height - 200;
+const groundY = canvas.height - 120;
 
 let seedY = 0;
 let trunkHeight = 0;
 let branches = [];
 let hearts = [];
 
-/* 🌱 SEMILLA */
 function drawSeed() {
   ctx.fillStyle = "#5c2b18";
   ctx.beginPath();
@@ -20,28 +19,25 @@ function drawSeed() {
   ctx.fill();
 }
 
-/* 🌳 TRONCO */
 function drawTrunk() {
   ctx.fillStyle = "#6b2e1a";
-  ctx.fillRect(centerX - 20, groundY - trunkHeight, 40, trunkHeight);
+  ctx.fillRect(centerX - 18, groundY - trunkHeight, 36, trunkHeight);
 }
 
-/* 🌿 CREAR RAMAS */
 function createBranches() {
   for (let i = 0; i < 12; i++) {
     branches.push({
       length: 0,
-      maxLength: 70 + Math.random() * 70,
+      maxLength: 60 + Math.random() * 60,
       side: i % 2 === 0 ? -1 : 1,
       heartSpawned: false
     });
   }
 }
 
-/* 🌿 DIBUJAR RAMAS */
 function drawBranches() {
   ctx.strokeStyle = "#6b2e1a";
-  ctx.lineWidth = 6;
+  ctx.lineWidth = 5;
 
   branches.forEach(branch => {
     if (branch.length < branch.maxLength) {
@@ -49,7 +45,7 @@ function drawBranches() {
     }
 
     const startX = centerX;
-    const startY = groundY - trunkHeight + 50;
+    const startY = groundY - trunkHeight + 40;
 
     const endX = startX + branch.side * branch.length;
     const endY = startY - branch.length * 0.9;
@@ -60,11 +56,11 @@ function drawBranches() {
     ctx.stroke();
 
     if (branch.length > branch.maxLength * 0.8 && !branch.heartSpawned) {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 8; i++) {
         hearts.push({
-          x: endX + (Math.random() - 0.5) * 60,
-          y: endY + (Math.random() - 0.5) * 60,
-          size: 6 + Math.random() * 6,
+          x: endX + (Math.random() - 0.5) * 50,
+          y: endY + (Math.random() - 0.5) * 50,
+          size: 5 + Math.random() * 5,
           hue: Math.random() * 360
         });
       }
@@ -73,7 +69,6 @@ function drawBranches() {
   });
 }
 
-/* ❤️ DIBUJAR CORAZÓN */
 function drawHeart(x, y, size, hue) {
   ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
   ctx.beginPath();
@@ -93,21 +88,19 @@ function drawHeart(x, y, size, hue) {
   ctx.fill();
 }
 
-/* 🌈 COPA PROGRESIVA */
 function growCrown() {
-  if (hearts.length < 500) {
-    for (let i = 0; i < 4; i++) {
+  if (hearts.length < 400) {
+    for (let i = 0; i < 3; i++) {
       hearts.push({
-        x: centerX + (Math.random() - 0.5) * 350,
-        y: groundY - trunkHeight - 150 + (Math.random() - 0.5) * 250,
-        size: 6 + Math.random() * 8,
+        x: centerX + (Math.random() - 0.5) * 280,
+        y: groundY - trunkHeight - 120 + (Math.random() - 0.5) * 200,
+        size: 5 + Math.random() * 7,
         hue: Math.random() * 360
       });
     }
   }
 }
 
-/* 🎬 ANIMACIÓN */
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -116,8 +109,8 @@ function animate() {
     drawSeed();
   } else {
 
-    if (trunkHeight < 260) {
-      trunkHeight += 1.5;
+    if (trunkHeight < 220) {
+      trunkHeight += 1.3;
     } else if (branches.length === 0) {
       createBranches();
     }
@@ -126,11 +119,11 @@ function animate() {
     drawBranches();
 
     hearts.forEach(heart => {
-      heart.hue += 0.15; // cambio suave
+      heart.hue += 0.1;
       drawHeart(heart.x, heart.y, heart.size, heart.hue);
     });
 
-    if (trunkHeight >= 260) {
+    if (trunkHeight >= 220) {
       growCrown();
     }
   }
@@ -140,7 +133,6 @@ function animate() {
 
 animate();
 
-/* ⏳ CONTADOR */
 const inicio = new Date("2023-01-01");
 
 function actualizarContador() {
