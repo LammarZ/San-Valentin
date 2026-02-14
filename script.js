@@ -5,13 +5,12 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const centerX = canvas.width / 2;
-const groundY = canvas.height - 180;
+const groundY = canvas.height - 200;
 
 let seedY = 0;
 let trunkHeight = 0;
 let branches = [];
 let hearts = [];
-let crownCreated = false;
 
 /* 🌱 SEMILLA */
 function drawSeed() {
@@ -29,11 +28,10 @@ function drawTrunk() {
 
 /* 🌿 CREAR RAMAS */
 function createBranches() {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 12; i++) {
     branches.push({
-      angle: -Math.PI/2 + (Math.random() - 0.5),
       length: 0,
-      maxLength: 80 + Math.random() * 60,
+      maxLength: 70 + Math.random() * 70,
       side: i % 2 === 0 ? -1 : 1,
       heartSpawned: false
     });
@@ -51,22 +49,21 @@ function drawBranches() {
     }
 
     const startX = centerX;
-    const startY = groundY - trunkHeight + 40;
+    const startY = groundY - trunkHeight + 50;
 
     const endX = startX + branch.side * branch.length;
-    const endY = startY - branch.length * 0.8;
+    const endY = startY - branch.length * 0.9;
 
     ctx.beginPath();
     ctx.moveTo(startX, startY);
     ctx.lineTo(endX, endY);
     ctx.stroke();
 
-    /* ❤️ Aparecen corazones cuando la rama madura */
     if (branch.length > branch.maxLength * 0.8 && !branch.heartSpawned) {
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 10; i++) {
         hearts.push({
-          x: endX + (Math.random() - 0.5) * 40,
-          y: endY + (Math.random() - 0.5) * 40,
+          x: endX + (Math.random() - 0.5) * 60,
+          y: endY + (Math.random() - 0.5) * 60,
           size: 6 + Math.random() * 6,
           hue: Math.random() * 360
         });
@@ -98,11 +95,11 @@ function drawHeart(x, y, size, hue) {
 
 /* 🌈 COPA PROGRESIVA */
 function growCrown() {
-  if (hearts.length < 400) {
-    for (let i = 0; i < 5; i++) {
+  if (hearts.length < 500) {
+    for (let i = 0; i < 4; i++) {
       hearts.push({
         x: centerX + (Math.random() - 0.5) * 350,
-        y: groundY - trunkHeight - 120 + (Math.random() - 0.5) * 200,
+        y: groundY - trunkHeight - 150 + (Math.random() - 0.5) * 250,
         size: 6 + Math.random() * 8,
         hue: Math.random() * 360
       });
@@ -119,7 +116,7 @@ function animate() {
     drawSeed();
   } else {
 
-    if (trunkHeight < 240) {
+    if (trunkHeight < 260) {
       trunkHeight += 1.5;
     } else if (branches.length === 0) {
       createBranches();
@@ -128,13 +125,12 @@ function animate() {
     drawTrunk();
     drawBranches();
 
-    /* corazones con color suave */
     hearts.forEach(heart => {
-      heart.hue += 0.2; // cambio MUY suave
+      heart.hue += 0.15; // cambio suave
       drawHeart(heart.x, heart.y, heart.size, heart.hue);
     });
 
-    if (trunkHeight >= 240) {
+    if (trunkHeight >= 260) {
       growCrown();
     }
   }
