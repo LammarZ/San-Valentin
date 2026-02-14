@@ -1,7 +1,7 @@
 body {
   margin: 0;
   overflow: hidden;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   background: #fdf6e3;
 }
 
@@ -14,7 +14,7 @@ canvas {
 
 .mensaje {
   position: absolute;
-  top: 15%;
+  top: 12%;
   left: 5%;
   width: 40%;
   color: #5a2d0c;
@@ -33,12 +33,12 @@ canvas {
 
 .galeria {
   position: absolute;
-  right: 3%;
-  top: 10%;
-  width: 35%;
+  right: 2%;
+  top: 8%;
+  width: 40%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
+  gap: 30px;
   z-index: 2;
 }
 
@@ -49,17 +49,17 @@ canvas {
 .foto::before {
   content: "🌻";
   position: absolute;
-  font-size: 90px;
-  top: -40px;
-  left: -40px;
+  font-size: 160px;   /* MÁS GRANDE */
+  top: -70px;
+  left: -70px;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.9;
 }
 
 .foto img {
   width: 100%;
-  border-radius: 20px;
+  border-radius: 25px;
   position: relative;
   z-index: 1;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.35);
 }

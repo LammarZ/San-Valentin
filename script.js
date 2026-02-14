@@ -4,7 +4,8 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// ===== CONTADOR =====
+// ================= CONTADOR =================
+
 const inicio = new Date("2023-06-08T00:00:00");
 
 function actualizarContador() {
@@ -22,10 +23,14 @@ function actualizarContador() {
 
 setInterval(actualizarContador, 1000);
 
-// ===== ÁRBOL =====
+// ================= CORAZONES ARCOIRIS =================
+
+let tiempoColor = 0;
 
 function dibujarCorazon(x, y, tamaño) {
-  ctx.fillStyle = "#d6336c";
+  const hue = (tiempoColor + x + y) % 360;
+  ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
+
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.bezierCurveTo(x - tamaño/2, y - tamaño/2,
@@ -37,45 +42,83 @@ function dibujarCorazon(x, y, tamaño) {
   ctx.fill();
 }
 
+// ================= ÁRBOL =================
+
+let corazonesCopa = [];
+
+function generarCopa(baseX, copaY) {
+  corazonesCopa = [];
+  for (let i = 0; i < 150; i++) {   // MUCHOS corazones
+    let angle = Math.random() * Math.PI * 2;
+    let radius = 90 + Math.random() * 40;
+
+    corazonesCopa.push({
+      x: baseX + Math.cos(angle) * radius,
+      y: copaY + Math.sin(angle) * radius,
+      size: 10 + Math.random() * 8
+    });
+  }
+}
+
 function dibujarArbol() {
+
   const baseX = canvas.width * 0.25;
   const baseY = canvas.height;
+  const troncoAltura = 260;
 
-  // Tronco natural
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Tronco natural ancho abajo fino arriba
   ctx.beginPath();
-  ctx.moveTo(baseX - 40, baseY);
-  ctx.lineTo(baseX - 20, baseY - 250);
-  ctx.lineTo(baseX + 20, baseY - 250);
-  ctx.lineTo(baseX + 40, baseY);
+  ctx.moveTo(baseX - 50, baseY);
+  ctx.lineTo(baseX - 20, baseY - troncoAltura);
+  ctx.lineTo(baseX + 20, baseY - troncoAltura);
+  ctx.lineTo(baseX + 50, baseY);
   ctx.closePath();
   ctx.fillStyle = "#7b4b2a";
   ctx.fill();
 
-  // Ramas curvas
-  for (let i = 0; i < 6; i++) {
-    let altura = baseY - 200 - (i * 20);
+  // Ramas curvas reales
+  for (let i = 0; i < 7; i++) {
+
+    let altura = baseY - troncoAltura + 40 + i * 25;
+
     ctx.beginPath();
     ctx.moveTo(baseX, altura);
-    ctx.quadraticCurveTo(baseX - 80 - (i*10), altura - 40, baseX - 120 - (i*10), altura - 80);
+    ctx.quadraticCurveTo(
+      baseX - 100 - i*15,
+      altura - 60,
+      baseX - 150 - i*10,
+      altura - 120
+    );
     ctx.strokeStyle = "#7b4b2a";
-    ctx.lineWidth = 5 - i*0.5;
+    ctx.lineWidth = 6 - i * 0.6;
     ctx.stroke();
 
     ctx.beginPath();
     ctx.moveTo(baseX, altura);
-    ctx.quadraticCurveTo(baseX + 80 + (i*10), altura - 40, baseX + 120 + (i*10), altura - 80);
+    ctx.quadraticCurveTo(
+      baseX + 100 + i*15,
+      altura - 60,
+      baseX + 150 + i*10,
+      altura - 120
+    );
     ctx.stroke();
   }
 
-  // COPA de corazones (bola arriba)
-  const copaY = baseY - 270;
-  for (let i = 0; i < 80; i++) {
-    let angle = Math.random() * Math.PI * 2;
-    let radius = 80 + Math.random() * 30;
-    let x = baseX + Math.cos(angle) * radius;
-    let y = copaY + Math.sin(angle) * radius;
-    dibujarCorazon(x, y, 12);
+  // COPA
+  const copaY = baseY - troncoAltura - 40;
+
+  if (corazonesCopa.length === 0) {
+    generarCopa(baseX, copaY);
   }
+
+  corazonesCopa.forEach(c => {
+    dibujarCorazon(c.x, c.y, c.size);
+  });
+
+  tiempoColor += 1;
+  requestAnimationFrame(dibujarArbol);
 }
 
 dibujarArbol();
