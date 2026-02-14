@@ -65,38 +65,42 @@ function animar() {
   ctx.closePath();
   ctx.fill();
 
-  // RAMAS mientras crece
-  if (crecimiento > 80 && ramas.length < 8) {
-    ramas.push({
-      x: baseX,
-      y: baseY - crecimiento,
-      largo: 0,
-      direccion: Math.random() > 0.5 ? 1 : -1
-    });
+  // RAMAS
+if (crecimiento > 60 && ramas.length < 14) {
+  let alturaRandom = baseY - Math.random() * crecimiento;
+
+  ramas.push({
+    x: baseX,
+    y: alturaRandom,
+    largo: 0,
+    direccion: Math.random() > 0.5 ? 1 : -1,
+    angulo: Math.random() * 0.5 + 0.3
+  });
+}
+  ramas.forEach(rama => {
+  if (rama.largo < 100) {
+    rama.largo += 1.2;
   }
 
-  ramas.forEach(rama => {
-    if (rama.largo < 80) {
-      rama.largo += 1.5;
-    }
+  ctx.strokeStyle = "#6b3e26";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(rama.x, rama.y);
+  ctx.lineTo(
+    rama.x + rama.largo * rama.direccion,
+    rama.y - rama.largo * rama.angulo
+  );
+  ctx.stroke();
 
-    ctx.strokeStyle = "#6b3e26";
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(rama.x, rama.y);
-    ctx.lineTo(rama.x + rama.largo * rama.direccion,
-               rama.y - rama.largo / 2);
-    ctx.stroke();
-
-    if (rama.largo > 70 && hojas.length < 60) {
-      hojas.push({
-        x: rama.x + rama.largo * rama.direccion,
-        y: rama.y - rama.largo / 2,
-        tamaño: Math.random() * 6 + 4
-      });
-    }
-  });
-
+  // MÁS CORAZONES
+  if (rama.largo > 80 && Math.random() < 0.2) {
+    hojas.push({
+      x: rama.x + rama.largo * rama.direccion,
+      y: rama.y - rama.largo * rama.angulo,
+      tamaño: Math.random() * 8 + 6
+    });
+  }
+});
   hojas.forEach(hoja => {
     dibujarCorazon(hoja.x, hoja.y, hoja.tamaño);
   });

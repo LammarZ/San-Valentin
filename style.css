@@ -51,7 +51,7 @@ canvas {
 .galeria {
   position: absolute;
   right: 40px;
-  top: 150px;
+  top: 250px;
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
