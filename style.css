@@ -1,89 +1,65 @@
 body {
   margin: 0;
   overflow: hidden;
-  font-family: Arial, sans-serif;
-  background: #f5efe6;
+  font-family: 'Arial', sans-serif;
+  background: #fdf6e3;
 }
 
 canvas {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 0;
 }
 
-/* MENSAJE */
 .mensaje {
   position: absolute;
-  top: 40px;
-  width: 100%;
-  text-align: center;
+  top: 15%;
+  left: 5%;
+  width: 40%;
+  color: #5a2d0c;
+  font-size: 22px;
   z-index: 2;
-  color: #5a3e36;
 }
 
-.mensaje h1 {
-  font-size: 42px;
-  margin-bottom: 10px;
-}
-
-.mensaje p {
-  font-size: 20px;
-  max-width: 900px;
-  margin: auto;
-}
-
-/* CONTADOR */
 .contador-amor {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  z-index: 2;
   font-size: 18px;
-  color: #5a3e36;
+  color: #5a2d0c;
+  z-index: 2;
 }
 
-.contador-amor strong {
-  display: block;
-  font-size: 20px;
-  margin-top: 5px;
-}
-
-/* GALERÍA */
 .galeria {
   position: absolute;
-  right: 40px;
-  top: 300px; /* MÁS ABAJO */
-  z-index: 2;
+  right: 3%;
+  top: 10%;
+  width: 35%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 35px;
-}
-
-.marco {
-  position: relative;
-  width: 170px;
-  height: 170px;
-}
-
-.girasol {
-  position: absolute;
-  width: 170px;
-  animation: girar 25s linear infinite;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  z-index: 2;
 }
 
 .foto {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  top: 25px;
-  left: 25px;
-  border-radius: 20px;
-  object-fit: cover;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  position: relative;
 }
 
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.foto::before {
+  content: "🌻";
+  position: absolute;
+  font-size: 90px;
+  top: -40px;
+  left: -40px;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.foto img {
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }

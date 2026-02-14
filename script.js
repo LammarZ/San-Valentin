@@ -4,15 +4,10 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let alturaMaxima = canvas.height * 0.45;
-let crecimiento = 0;
+// ===== CONTADOR =====
+const inicio = new Date("2023-06-08T00:00:00");
 
-let ramas = [];
-let hojas = [];
-
-// CONTADOR
 function actualizarContador() {
-  const inicio = new Date("2023-06-08T00:00:00");
   const ahora = new Date();
   const diferencia = ahora - inicio;
 
@@ -21,99 +16,66 @@ function actualizarContador() {
   const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
   const segundos = Math.floor((diferencia / 1000) % 60);
 
-  document.getElementById("tiempo").innerText =
-    `${dias} días, ${horas} horas, ${minutos} minutos y ${segundos} segundos`;
+  document.getElementById("tiempo").textContent =
+    `${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos`;
 }
 
 setInterval(actualizarContador, 1000);
 
-// CORAZÓN
-function dibujarCorazon(x, y, t) {
-  ctx.fillStyle = "#d64562";
+// ===== ÁRBOL =====
+
+function dibujarCorazon(x, y, tamaño) {
+  ctx.fillStyle = "#d6336c";
   ctx.beginPath();
   ctx.moveTo(x, y);
-  ctx.bezierCurveTo(x - t, y - t,
-                    x - t * 1.5, y + t / 2,
-                    x, y + t);
-  ctx.bezierCurveTo(x + t * 1.5, y + t / 2,
-                    x + t, y - t,
+  ctx.bezierCurveTo(x - tamaño/2, y - tamaño/2,
+                    x - tamaño, y + tamaño/3,
+                    x, y + tamaño);
+  ctx.bezierCurveTo(x + tamaño, y + tamaño/3,
+                    x + tamaño/2, y - tamaño/2,
                     x, y);
   ctx.fill();
 }
 
-function animar() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const baseX = canvas.width / 2;
+function dibujarArbol() {
+  const baseX = canvas.width * 0.25;
   const baseY = canvas.height;
 
-  // CRECIMIENTO
-  if (crecimiento < alturaMaxima) {
-    crecimiento += 1.5;
-  }
-
-  // TRONCO
-  const grosorBase = 40;
-  const grosorArriba = 16;
-
-  const grosorActual =
-    grosorBase - (crecimiento / alturaMaxima) *
-    (grosorBase - grosorArriba);
-
-  ctx.fillStyle = "#6b3e26";
+  // Tronco natural
   ctx.beginPath();
-  ctx.moveTo(baseX - grosorBase / 2, baseY);
-  ctx.lineTo(baseX + grosorBase / 2, baseY);
-  ctx.lineTo(baseX + grosorActual / 2, baseY - crecimiento);
-  ctx.lineTo(baseX - grosorActual / 2, baseY - crecimiento);
+  ctx.moveTo(baseX - 40, baseY);
+  ctx.lineTo(baseX - 20, baseY - 250);
+  ctx.lineTo(baseX + 20, baseY - 250);
+  ctx.lineTo(baseX + 40, baseY);
   ctx.closePath();
+  ctx.fillStyle = "#7b4b2a";
   ctx.fill();
 
-  // GENERAR MUCHAS RAMAS EN DIFERENTES ALTURAS
-  if (ramas.length < 18 && crecimiento > 80) {
-    let alturaRandom = baseY - Math.random() * crecimiento;
-
-    ramas.push({
-      x: baseX,
-      y: alturaRandom,
-      largo: 0,
-      direccion: Math.random() > 0.5 ? 1 : -1,
-      inclinacion: Math.random() * 0.5 + 0.3
-    });
-  }
-
-  // DIBUJAR RAMAS
-  ramas.forEach(rama => {
-    if (rama.largo < 120) {
-      rama.largo += 1.5;
-    }
-
-    ctx.strokeStyle = "#6b3e26";
-    ctx.lineWidth = 5;
+  // Ramas curvas
+  for (let i = 0; i < 6; i++) {
+    let altura = baseY - 200 - (i * 20);
     ctx.beginPath();
-    ctx.moveTo(rama.x, rama.y);
-    ctx.lineTo(
-      rama.x + rama.largo * rama.direccion,
-      rama.y - rama.largo * rama.inclinacion
-    );
+    ctx.moveTo(baseX, altura);
+    ctx.quadraticCurveTo(baseX - 80 - (i*10), altura - 40, baseX - 120 - (i*10), altura - 80);
+    ctx.strokeStyle = "#7b4b2a";
+    ctx.lineWidth = 5 - i*0.5;
     ctx.stroke();
 
-    // MUCHOS MÁS CORAZONES
-    if (rama.largo > 90 && Math.random() < 0.4) {
-      hojas.push({
-        x: rama.x + rama.largo * rama.direccion,
-        y: rama.y - rama.largo * rama.inclinacion,
-        tamaño: Math.random() * 10 + 6
-      });
-    }
-  });
+    ctx.beginPath();
+    ctx.moveTo(baseX, altura);
+    ctx.quadraticCurveTo(baseX + 80 + (i*10), altura - 40, baseX + 120 + (i*10), altura - 80);
+    ctx.stroke();
+  }
 
-  // DIBUJAR CORAZONES
-  hojas.forEach(h => {
-    dibujarCorazon(h.x, h.y, h.tamaño);
-  });
-
-  requestAnimationFrame(animar);
+  // COPA de corazones (bola arriba)
+  const copaY = baseY - 270;
+  for (let i = 0; i < 80; i++) {
+    let angle = Math.random() * Math.PI * 2;
+    let radius = 80 + Math.random() * 30;
+    let x = baseX + Math.cos(angle) * radius;
+    let y = copaY + Math.sin(angle) * radius;
+    dibujarCorazon(x, y, 12);
+  }
 }
 
-animar();
+dibujarArbol();
