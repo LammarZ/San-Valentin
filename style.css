@@ -1,92 +1,64 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f0e6;
-  overflow: hidden;
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let hearts = [];
+
+/* DIBUJAR TRONCO */
+function drawTree() {
+  ctx.fillStyle = "#7b2d12";
+  ctx.fillRect(canvas.width - 250, canvas.height - 300, 40, 300);
 }
 
-.titulo {
-  text-align: center;
-  font-size: 48px;
-  margin-top: 20px;
-  margin-bottom: 0;
+/* CREAR CORAZONES */
+function createHearts() {
+  for (let i = 0; i < 200; i++) {
+    hearts.push({
+      x: canvas.width - 230 + Math.random() * 200,
+      y: canvas.height - 320 - Math.random() * 200,
+      size: Math.random() * 15 + 8,
+      color: `hsl(${Math.random() * 360}, 70%, 60%)`
+    });
+  }
 }
 
-canvas {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+/* DIBUJAR CORAZON */
+function drawHeart(x, y, size, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.bezierCurveTo(x - size/2, y - size/2, x - size, y + size/3, x, y + size);
+  ctx.bezierCurveTo(x + size, y + size/3, x + size/2, y - size/2, x, y);
+  ctx.fill();
 }
 
-.contenido {
-  display: flex;
-  justify-content: space-between;
-  padding: 40px 100px;
-  margin-top: 40px;
-  height: calc(100vh - 120px);
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawTree();
+  hearts.forEach(h => drawHeart(h.x, h.y, h.size, h.color));
+  requestAnimationFrame(animate);
 }
 
-.lado-izquierdo {
-  width: 35%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+createHearts();
+animate();
+
+/* CONTADOR DESDE 8 JUNIO 2023 */
+const inicio = new Date("2023-06-08T00:00:00");
+
+function actualizarContador() {
+  const ahora = new Date();
+  const diferencia = ahora - inicio;
+
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+  const segundos = Math.floor((diferencia / 1000) % 60);
+
+  document.getElementById("tiempo").innerHTML =
+    `${dias} días ${horas}h ${minutos}m ${segundos}s`;
 }
 
-.mensaje {
-  font-size: 18px;
-  margin-bottom: 30px;
-}
-
-.contador-amor {
-  position: fixed;
-  bottom: 20px;
-  left: 30px;
-  font-size: 16px;
-  background: rgba(255,255,255,0.8);
-  padding: 10px 15px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  z-index: 5;
-}
-
-/* GALERÍA */
-
-.galeria {
-  width: 35%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 35px;
-}
-
-.foto {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.foto::before {
-  content: "";
-  position: absolute;
-  background: url("img/girasol.png") no-repeat center;
-  background-size: contain;
-  width: 150px;
-  height: 150px;
-  top: -40px;
-  left: -40px;
-  opacity: 0.3;
-  z-index: 0;
-}
-
-.foto img {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 16px;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.3);
-}
+setInterval(actualizarContador, 1000);
+actualizarContador();
